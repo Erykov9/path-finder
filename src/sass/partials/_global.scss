@@ -15,7 +15,7 @@
 }
 
 .all_pages {
-  background-color: #cccccc;
+  background-color: black;
   background-image: url('../../images/background-images/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -30,4 +30,9 @@
 
 .active-page {
   display: block;
+}
+
+.active-box {
+  background: rgb(204, 179, 96);
+  opacity: 0.8;
 }
