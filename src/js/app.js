@@ -1,4 +1,3 @@
-/* eslint-disable */
 const select = {
   navigation: {
     navDiv: '.navigation',
@@ -11,7 +10,7 @@ const select = {
     finder: '#finder',
     about: '#about'
   }
-}
+};
 
 const classNames = {
   navigation: {
@@ -20,41 +19,60 @@ const classNames = {
     navBtn: 'nav-btn',
     active: 'active'
   }
-}
+};
 
 
 class Home {
-  constructor(element) {
+  constructor() {
     const thisHome = this;
 
     thisHome.dataHolder();
-    thisHome.navListener();
+    thisHome.navPanel();
+
+    thisHome.navArr = [];
   }
 
-  navListener() {
+  navPanel() {
     const thisHome = this;
-    console.log(thisHome);
   
-    thisHome.navList.addEventListener('click', function(e){
+    thisHome.dom.navList.addEventListener('click', function(e){
       const clicked = e.target;
-  
+      const attribute = clicked.getAttribute('href');
   
       if(clicked.classList.contains(classNames.navigation.navBtn)) {
         if(!clicked.classList.contains(classNames.navigation.active)) {
-          for (let btn of thisHome.navBtn) {
-            btn.classList.remove(classNames.navigation.active)
+          for (let btn of thisHome.dom.navBtn) {
+            btn.classList.remove(classNames.navigation.active);
+            thisHome.navArr.pop();
           }
-          clicked.classList.add(classNames.navigation.active)
+          clicked.classList.add(classNames.navigation.active);
+          thisHome.navArr.push(attribute);
         }
       }
-    })
+
+      for (let content of thisHome.dom.contentPages) {
+        content.classList.remove('active-page');
+        if(content.getAttribute('id') == thisHome.navArr.join('')) {
+          content.classList.add('active-page');
+        }
+      }
+    });
+  }
+
+  pageSwitch() {
+
   }
 
   dataHolder() {
     const thisHome = this;
     
-    thisHome.navList = document.querySelector(select.navigation.navList);
-    thisHome.navBtn = document.querySelectorAll(select.navigation.navBtn);
+    thisHome.dom = {};
+    thisHome.dom.navList = document.querySelector(select.navigation.navList);
+    thisHome.dom.navBtn = document.querySelectorAll(select.navigation.navBtn);
+    thisHome.dom.contentPages = document.querySelectorAll(select.pages.content);
+    thisHome.dom.finder = document.getElementById(select.pages.finder);
+    thisHome.dom.about = document.getElementById(select.pages.about);
+
   }
 }
 
@@ -71,5 +89,5 @@ const app = {
 
     thisApp.initHome();
   }
-}
+};
 app.init();
