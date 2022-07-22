@@ -1,0 +1,40 @@
+.finder-header {
+  text-align: center;
+  padding-bottom: 36px;
+  color: $color-light;
+  letter-spacing: 3px;
+}
+
+.box-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 36px;
+  .box-row {
+    display: flex;
+    max-width: 300px;
+    flex-direction: column;
+    .box {
+      width:40px;
+      height: 40px;
+      border: 0.1px solid $color-light;
+      display:inline-block;
+      margin:0;
+    }
+  }
+}
+.button {
+  text-align: center;
+}
+.btn {
+  text-decoration: none;
+  color: $color-light;
+  border: 1px solid $color-btn;
+  padding: 7px;
+  background: $color-btn;
+  font-size: 12px;
+  width: 130px;
+  a {
+    text-align: center;
+  }
+}

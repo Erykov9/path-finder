@@ -17,10 +17,9 @@
         "build:copy": "copyfiles -a -u 1 -e \"**/sass/**/*\" -e \"**/.gitkeep\" \"src/**/*\" dist",
         "build:sass": "sass --style=compressed --no-source-map src/sass:dist/css",
         "build:autoprefixer": "postcss dist/css/*.css --use autoprefixer -d dist/css",
-        "server": "json-server --port 3131 --no-cors --delay 250 --watch dist/db/app.json",
         "build-dev": "npm-run-all build-dev:sass build:autoprefixer",
         "build-dev:sass": "sass --style=expanded --source-map src/sass:dist/css",
-        "watch": "npm-run-all build build-dev -p watch:* server",
+        "watch": "npm-run-all build build-dev -p watch:*",
         "watch:browsersync": "browser-sync start --server dist --files \"dist/**/*\" --ignore \"dist/db/**/*\"",
         "watch:sassprefixer": "onchange \"src/sass/**/*.scss\" -- npm run build-dev",
         "watch:copy": "onchange -e \"**/sass/**/*\" -e \"**/.gitkeep\" \"src/**/*\" -- copyfiles -a -u 1 {{changed}} dist"
@@ -49,7 +48,6 @@
         "14": "^3.1.6",
         "flatpickr": "^4.6.13",
         "flickity": "^3.0.0",
-        "json-server": "^0.17.0",
         "latest": "^0.2.0",
         "semver": "^7.3.7"
     }

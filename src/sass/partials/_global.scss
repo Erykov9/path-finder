@@ -1,0 +1,33 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  font-family: $font-text;
+  margin: 0;
+}
+
+.row::before,
+.row::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.all_pages {
+  background-color: #cccccc;
+  background-image: url('../../images/background-images/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+.active {
+  border-bottom: solid 2px tomato;
+}
+
+.active-page {
+  display: block;
+}
