@@ -97,10 +97,10 @@ class Finder {
     const thisFinder = this;
   
     const field = {
-      row: fieldElem.getAttribute('data-row'),
-      col: fieldElem.getAttribute('data-col')
+      row: parseInt(fieldElem.getAttribute('data-row')),
+      col: parseInt(fieldElem.getAttribute('data-col'))
     };
-  
+
     if(thisFinder.grid[field.row][field.col]) {
       thisFinder.grid[field.row][field.col] = false;
       fieldElem.classList.remove(classNames.finder.active);
@@ -119,9 +119,10 @@ class Finder {
         const edgeFields = [];
         if(field.col > 1) edgeFields.push(thisFinder.grid[field.row][field.col-1]); //get field on the left value
         if(field.col < 10) edgeFields.push(thisFinder.grid[field.row][field.col+1]); //get field on the right value
-        if(field.row > 1) edgeFields.push(thisFinder.grid[field.row - 1][field.col]); //get field on the top value
-        if(field.row < 10) edgeFields.push(thisFinder.grid[field.row + 1][field.col]); //get field on the bottom value
+        if(field.row > 1) edgeFields.push(thisFinder.grid[field.row-1][field.col]); //get field on the top value
+        if(field.row < 10) edgeFields.push(thisFinder.grid[field.row+1][field.col]); //get field on the bottom value
         console.log(edgeFields);
+
         
         if(!edgeFields.includes(true)) {
           alert('A new field should touch at least one that is already selected!');
