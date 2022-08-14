@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
@@ -26,174 +27,70 @@
         <h4 class="h4-main">FOR TRAVELLERS</h4>
       </div>
 
+
+
+  <div id="pages">
+    <section class="selector">
+      <div id="about-page" class="about-page"></div>
+    </section>
+    <section class="selector">
+      <div id="finder-page" class="finder-page"></div>
+    </section>
+  </div>
+
 <!-- ABOUT PAGE -->
 
-      <div class="content-container active-page" id="#about">
-        <div class="gallery-left">
-          <div class="gallery-photo-left">
-            <img src="images/background-images/1.jpg" alt="bckground image">
-          </div>
-          <div class="gallery-text-left">
-            <h3>PLAN YOUR JOURNEYS</h3>
-            <p>Pick attractions and book hotels</p>
-          </div>
+  <script id="template-home" type="text/x-handlebars-template">
+    <div class="content-container active-page" id="#about">
+      <div class="gallery-left">
+        <div class="gallery-photo-left">
+          <img src="images/background-images/1.jpg" alt="bckground image">
         </div>
-
-        <div class="gallery-right">
-          <div class="gallery-photo-right">
-            <img src="images/background-images/2.jpg" alt="bckground image">
-          </div>
-          <div class="gallery-text-right">
-            <h3>MINIMALIZE BOREDOM</h3>
-            <p>Pick routes that are short and attractive</p>
-          </div>
+        <div class="gallery-text-left">
+          <h3>PLAN YOUR JOURNEYS</h3>
+          <p>Pick attractions and book hotels</p>
         </div>
       </div>
+
+      <div class="gallery-right">
+        <div class="gallery-photo-right">
+          <img src="images/background-images/2.jpg" alt="bckground image">
+        </div>
+        <div class="gallery-text-right">
+          <h3>MINIMALIZE BOREDOM</h3>
+          <p>Pick routes that are short and attractive</p>
+        </div>
+      </div>
+    </div>
+  </script>
+
 
 <!-- FINDER MAIN PAGE -->
 
-      <div class="content-container" id="#finder">
+    <script id="template-finder" type="text/x-handlebars-template">
+      <div class="content-container" id="finder">
         <div class="finder">
           <div class="finder-header">
-            <h2>DRAW ROUTES</h2>
+            <h2>{{ title }}</h2>
           </div>
           <div class="box-container">
-            <div class="box-row">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
-            <div class="box-row">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
-            <div class="box-row">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
-            <div class="box-row">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
-            <div class="box-row">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
-            <div class="box-row">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
-            <div class="box-row">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
-            <div class="box-row">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
-            <div class="box-row">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
-            <div class="box-row">
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-              <div class="box"></div>
-            </div>
           </div>
           <div class="button">
-            <a class="btn" href="#finish-drawing">FINISH DRAWING</a>
-            <a class="btn clear" href="#">CLEAR</a>
+            <a class="btn" href="#finish-drawing">{{ btnText }}</a>
           </div>
       </div>
-
-
-      </div>
+    </script>
+  </div>
 
 <!-- FOOTER  -->
 
       <footer><p>All rights reserverd</p></footer>
     </div>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
     <script src="js/app.js" type="module"></script>
   </body>
 </html>

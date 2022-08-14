@@ -6,21 +6,15 @@
 }
 
 .box-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding-bottom: 36px;
-  .box-row {
-    display: flex;
-    max-width: 300px;
-    flex-direction: column;
-    .box {
-      width:40px;
-      height: 40px;
-      border: 0.1px solid $color-light;
-      display:inline-block;
-      margin:0;
-    }
+  max-width: 1140px;
+  display: grid;
+  grid-template-columns: 40px 40px 40px 40px 40px 40px 40px  40px 40px 40px;
+  justify-content: center;
+  .tile {
+    width: 40px;
+    height: 40px;
+    border: 1px solid white;
   }
 }
 .button {

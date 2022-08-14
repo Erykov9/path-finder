@@ -1,14 +1,24 @@
-import {select, classNames} from '../settings.js';
+import {select, classNames, templates} from '../settings.js';
 
 class Home {
-  constructor() {
+  constructor(element) {
     const thisHome = this;
 
+    thisHome.element = element;
+
+    thisHome.render();
     thisHome.getData();
     thisHome.navPanel();
 
 
     thisHome.navArr = [];
+  }
+
+  render() {
+    const thisHome = this;
+
+    const generatedHTML = templates.about('#about');
+    thisHome.element.innerHTML = generatedHTML;
   }
 
   navPanel() {

@@ -1,58 +1,62 @@
-import {classNames, select} from '../settings.js';
+import { select, templates } from '../settings.js';
 
 class Finder {
-  constructor() {
+  constructor(element) {
     const thisFinder = this;
 
+
+    thisFinder.element = element;
+    thisFinder.step = 1;
+    thisFinder.render();
+    thisFinder.generateNet();
     thisFinder.getData();
-    thisFinder.checkBox();
-    thisFinder.reset();
 
-    thisFinder.boxArray = [];
 
   }
 
-  getClosestActiveElement() {
+  render() {
     const thisFinder = this;
-    const boxes = thisFinder.dom.box;
 
-    for(let box of boxes) {
-      console.log(box.classList.contains(classNames.finder.active));
+    // determine what title and button content should be used
+    let pageData = null;
+    switch(thisFinder.step) {
+    case 1:
+      pageData = { title: 'Draw routes', btnText: 'Finish drawing' };
+      break;
+    case 2:
+      pageData = { title: 'Pick start and finish', buttonText: 'Compute' };
+      break;
+    case 3:
+      pageData = { title: 'The best route is', buttonText: 'Start again' };
+      break;
     }
+
+    const generatedHTML = templates.finder(pageData);
+    thisFinder.element.innerHTML = generatedHTML;
+
   }
 
-  checkBox()  {
+  generateNet() {
     const thisFinder = this;
+    let html = '';
 
-    thisFinder.dom.wrapper.addEventListener('click', function(e) {
-      e.preventDefault();
-      const clicked = e.target;
-
-      if (clicked.getAttribute('class') == 'box' || clicked.getAttribute('class') == 'box active-box') {
-        clicked.classList.toggle(classNames.finder.active);
+    for(let row = 1; row <= 10; row++) {
+      for(let col = 1; col <= 10; col++) {
+        html += '<div class="tile" data-row="' + row + '" data-col="' + col + '"></div>';
       }
-      thisFinder.getClosestActiveElement();
-    });
-  }
-
-  reset() {
-    const thisFinder = this;
-
-    thisFinder.dom.clear.addEventListener('click', function() {
-      for (let box of thisFinder.dom.box) {
-        box.classList.remove(classNames.finder.active);
-      }
-    });
+    }
+    thisFinder.element.querySelector(select.finder.boxContainer).innerHTML = html;
   }
 
   getData() {
-    const thisFinder = this;
+    const thisHome = this;
+    
+    thisHome.dom = {};
+    thisHome.dom.navList = document.querySelector(select.navigation.navList);
+    thisHome.dom.navBtn = document.querySelectorAll(select.navigation.navBtn);
+    thisHome.dom.contentPages = document.querySelectorAll(select.pages.content);
 
-    thisFinder.dom = {};
-    thisFinder.dom.wrapper = document.querySelector(select.finder.boxContainer);
-    thisFinder.dom.boxRow = document.querySelectorAll(select.finder.boxRow);
-    thisFinder.dom.box = document.querySelectorAll(select.finder.box);
-    thisFinder.dom.clear = document.querySelector(select.finder.clear);
+    console.log(thisHome.dom.contentPages);
   }
 }
 

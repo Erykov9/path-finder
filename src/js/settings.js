@@ -12,9 +12,13 @@ export const select = {
   },
   finder: {
     boxContainer: '.box-container',
-    box: '.box',
+    box: '.tile',
     boxRow: '.boxRow',
     clear: '.clear'
+  },
+  templates: {
+    finder: '#template-finder',
+    about: '#template-home'
   }
 };
 
@@ -26,6 +30,13 @@ export const classNames = {
     active: 'active'
   },
   finder: {
-    active: 'active-box'
+    active: 'active-box',
+    tile: 'tile',
+    clicked: 'clicked'
   }
+};
+
+export const templates = {
+  finder: Handlebars.compile(document.querySelector(select.templates.finder).innerHTML),
+  about: Handlebars.compile(document.querySelector(select.templates.about).innerHTML)
 };
