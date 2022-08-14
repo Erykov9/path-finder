@@ -17,8 +17,10 @@ class Finder {
         thisFinder.grid[row][col] = false;
       }
     }
-    console.log(thisFinder.grid);
 
+    thisFinder.startFinish = [];
+    thisFinder.start = '';
+    thisFinder.finish = '';
   }
 
   render() {
@@ -44,6 +46,7 @@ class Finder {
 
   generateNet() {
     const thisFinder = this;
+
     let html = '';
 
     for(let row = 1; row <= 10; row++) {
@@ -67,6 +70,7 @@ class Finder {
       document.querySelector(select.finder.submitBtn).addEventListener('click', function(e) {
         e.preventDefault();
         thisFinder.changeStep(2);
+        document.querySelector(select.finder.boxContainer).innerHTML = thisFinder.activeBox.join('');
       });
   
       document.querySelector(select.finder.boxContainer).addEventListener('click', function(e) {
@@ -75,7 +79,6 @@ class Finder {
 
         if(clicked.classList.contains(classNames.finder.tile)) {
           thisFinder.toggleField(clicked);
-          console.log(clicked);
         }
       });
     }
@@ -84,11 +87,20 @@ class Finder {
         e.preventDefault();
         thisFinder.changeStep(3);
       });
+      document.querySelector(select.finder.boxContainer).addEventListener('click', function(e) {
+        e.preventDefault();
+        const clicked = e.target;
+
+        if(clicked.classList.contains(classNames.finder.tile)) {
+          thisFinder.startAndFinish(clicked);
+        }
+      });
     }
     else if(thisFinder.step === 3) {
       document.querySelector(select.finder.submitBtn).addEventListener('click', function(e) {
         e.preventDefault();
         thisFinder.changeStep(1);
+        thisFinder.generateNet();
       });
     }
   }
@@ -121,7 +133,6 @@ class Finder {
         if(field.col < 10) edgeFields.push(thisFinder.grid[field.row][field.col+1]); //get field on the right value
         if(field.row > 1) edgeFields.push(thisFinder.grid[field.row-1][field.col]); //get field on the top value
         if(field.row < 10) edgeFields.push(thisFinder.grid[field.row+1][field.col]); //get field on the bottom value
-        console.log(edgeFields);
 
         
         if(!edgeFields.includes(true)) {
@@ -132,7 +143,32 @@ class Finder {
 
       thisFinder.grid[field.row][field.col] = true;
       fieldElem.classList.add(classNames.finder.active);
+
+      const exp = document.querySelectorAll(select.finder.box);
+      thisFinder.activeBox = [];
+
+      for (let e of exp) {
+        thisFinder.activeBox.push(e.outerHTML);
+      }
     }
+  }
+
+  startAndFinish(clicked) {
+    const thisFinder = this;
+
+
+    if(thisFinder.startFinish.length == 0) {
+      clicked.classList.toggle('start');
+      thisFinder.startFinish.push(clicked);
+    } else if (thisFinder.startFinish.length == 1) {
+      clicked.classList.toggle('finish');
+    } else {
+      return;
+    }
+
+
+    const activeTiles = document.querySelectorAll(select.finder.activeBox);
+    console.log(activeTiles);
   }
 }
 

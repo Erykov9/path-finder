@@ -16,7 +16,8 @@ export const select = {
     box: '.tile',
     boxRow: '.boxRow',
     clear: '.clear',
-    submitBtn: '.btn'
+    submitBtn: '.btn',
+    activeBox: '.active-box'
   },
   templates: {
     finder: '#template-finder',
