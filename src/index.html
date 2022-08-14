@@ -30,10 +30,10 @@
 
 
   <div id="pages">
-    <section class="selector">
+    <section class="selector active-page" id="#about">
       <div id="about-page" class="about-page"></div>
     </section>
-    <section class="selector">
+    <section class="selector" id="#finder">
       <div id="finder-page" class="finder-page"></div>
     </section>
   </div>
@@ -41,7 +41,7 @@
 <!-- ABOUT PAGE -->
 
   <script id="template-home" type="text/x-handlebars-template">
-    <div class="content-container active-page" id="#about">
+    <div class="content-container">
       <div class="gallery-left">
         <div class="gallery-photo-left">
           <img src="images/background-images/1.jpg" alt="bckground image">
@@ -68,7 +68,7 @@
 <!-- FINDER MAIN PAGE -->
 
     <script id="template-finder" type="text/x-handlebars-template">
-      <div class="content-container" id="finder">
+      <div class="content-container">
         <div class="finder">
           <div class="finder-header">
             <h2>{{ title }}</h2>
@@ -83,7 +83,7 @@
   </div>
 
 <!-- FOOTER  -->
-
+    <div class="footer">
       <footer><p>All rights reserverd</p></footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>

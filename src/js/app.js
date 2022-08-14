@@ -80,5 +80,3 @@ const app = {
   }
 };
 app.init();
-
-

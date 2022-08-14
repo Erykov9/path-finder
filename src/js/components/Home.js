@@ -45,7 +45,7 @@ class Home {
   pageSwitch() {
     const thisHome = this;
 
-    for (let content of thisHome.dom.contentPages) {
+    for (let content of thisHome.dom.selectors) {
       content.classList.remove('active-page');
       if(content.getAttribute('id') == thisHome.navArr.join('')) {
         content.classList.add('active-page');
@@ -60,6 +60,7 @@ class Home {
     thisHome.dom.navList = document.querySelector(select.navigation.navList);
     thisHome.dom.navBtn = document.querySelectorAll(select.navigation.navBtn);
     thisHome.dom.contentPages = document.querySelectorAll(select.pages.content);
+    thisHome.dom.selectors = document.querySelectorAll(select.pages.selector);
   }
 }
 

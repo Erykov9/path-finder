@@ -8,13 +8,15 @@ export const select = {
   pages: {
     content: '.content-container',
     finder: '#finder',
-    about: '#about'
+    about: '#about',
+    selector: '.selector'
   },
   finder: {
     boxContainer: '.box-container',
     box: '.tile',
     boxRow: '.boxRow',
-    clear: '.clear'
+    clear: '.clear',
+    submitBtn: '.btn'
   },
   templates: {
     finder: '#template-finder',
