@@ -10,6 +10,8 @@ class Finder {
     thisFinder.render();
     thisFinder.generateNet();
 
+
+
     thisFinder.grid = {};
     for(let row = 1; row <= 10; row++) {
       thisFinder.grid[row] = {};
@@ -18,8 +20,10 @@ class Finder {
       }
     }
 
+
     thisFinder.start = [];
     thisFinder.finish = [];
+    thisFinder.road = document.querySelectorAll(select.finder.box);
   }
 
   render() {
@@ -66,6 +70,7 @@ class Finder {
     const thisFinder = this;
 
     if(thisFinder.step === 1) {
+      thisFinder.generateNet();
       document.querySelector(select.finder.submitBtn).addEventListener('click', function(e) {
         e.preventDefault();
         thisFinder.changeStep(2);
@@ -81,6 +86,7 @@ class Finder {
         }
       });
     }
+
     else if(thisFinder.step === 2) {
       document.querySelector(select.finder.submitBtn).addEventListener('click', function(e) {
         e.preventDefault();
@@ -96,25 +102,49 @@ class Finder {
         }
       });
     }
+    
     else if(thisFinder.step === 3) {
+      thisFinder.findRoad();
       document.querySelector(select.finder.submitBtn).addEventListener('click', function(e) {
         e.preventDefault();
         thisFinder.changeStep(1);
+        thisFinder.clearData();
       });
     }
   }
 
-  toggleField(fieldElem) {
+
+  findRoad() {
+    const thisFinder = this;
+
+    console.log(thisFinder.grid);
+    const gridValues = Object.values(thisFinder.grid)
+      .map(col => Object.values(col))
+      .flat();
+
+    console.log(gridValues);
+    let road = 0;
+    for (let path of gridValues) {
+      if(path == true) {
+        road = road + 1;
+      }
+    }
+    console.log(road);
+    
+
+  }
+
+  toggleField(clicked) {
     const thisFinder = this;
   
     const field = {
-      row: parseInt(fieldElem.getAttribute('data-row')),
-      col: parseInt(fieldElem.getAttribute('data-col'))
+      row: parseInt(clicked.getAttribute('data-row')),
+      col: parseInt(clicked.getAttribute('data-col'))
     };
 
     if(thisFinder.grid[field.row][field.col]) {
       thisFinder.grid[field.row][field.col] = false;
-      fieldElem.classList.remove(classNames.finder.active);
+      clicked.classList.remove(classNames.finder.active);
     }
   
     else {
@@ -141,7 +171,7 @@ class Finder {
       }
 
       thisFinder.grid[field.row][field.col] = true;
-      fieldElem.classList.add(classNames.finder.active);
+      clicked.classList.add(classNames.finder.active);
 
       const exp = document.querySelectorAll(select.finder.box);
       thisFinder.activeBox = [];
@@ -154,15 +184,25 @@ class Finder {
 
   startAndFinish(clicked) {
     const thisFinder = this;
+    console.log(thisFinder.grid);
+    
+
+    const field = {
+      row: parseInt(clicked.getAttribute('data-row')),
+      col: parseInt(clicked.getAttribute('data-col'))
+    };
+
 
     if(clicked.classList.contains(classNames.finder.active)) {
       if(!clicked.classList.contains(classNames.finder.start) && thisFinder.start.length == 0) {
         clicked.classList.add(classNames.finder.start);
         thisFinder.start.push(clicked);
+        thisFinder.grid[field.row][field.col] = 'start';
       }
       else if (clicked.classList.contains(classNames.finder.start)) {
         clicked.classList.remove(classNames.finder.start);
         thisFinder.start.pop();
+        thisFinder.grid[field.row][field.col] = false;
       }
     }
 
@@ -170,19 +210,37 @@ class Finder {
       if(thisFinder.start.length == 1 && !clicked.classList.contains(classNames.finder.start) && thisFinder.finish.length == 0) {
         clicked.classList.add(classNames.finder.finish);
         thisFinder.finish.push(clicked);
+        thisFinder.grid[field.row][field.col] = 'finish';
       }
       else if (clicked.classList.contains(classNames.finder.finish)){
         clicked.classList.remove(classNames.finder.finish);
         thisFinder.finish.pop();
+        thisFinder.grid[field.row][field.col] = false;
       }
     }
 
 
     const exp = document.querySelectorAll(select.finder.box);
     thisFinder.startFinish = [];
+    console.log(thisFinder.grid);
 
     for (let e of exp) {
       thisFinder.startFinish.push(e.outerHTML);
+    }
+  }
+
+  clearData() {
+    const thisFinder = this;
+
+    thisFinder.start = [];
+    thisFinder.finish = [];
+
+    thisFinder.grid = {};
+    for(let row = 1; row <= 10; row++) {
+      thisFinder.grid[row] = {};
+      for(let col = 1; col <= 10; col++) {
+        thisFinder.grid[row][col] = false;
+      }
     }
   }
 }
