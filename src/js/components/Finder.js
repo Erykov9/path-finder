@@ -18,9 +18,8 @@ class Finder {
       }
     }
 
-    thisFinder.startFinish = [];
-    thisFinder.start = '';
-    thisFinder.finish = '';
+    thisFinder.start = [];
+    thisFinder.finish = [];
   }
 
   render() {
@@ -86,6 +85,7 @@ class Finder {
       document.querySelector(select.finder.submitBtn).addEventListener('click', function(e) {
         e.preventDefault();
         thisFinder.changeStep(3);
+        document.querySelector(select.finder.boxContainer).innerHTML = thisFinder.startFinish.join('');
       });
       document.querySelector(select.finder.boxContainer).addEventListener('click', function(e) {
         e.preventDefault();
@@ -100,7 +100,6 @@ class Finder {
       document.querySelector(select.finder.submitBtn).addEventListener('click', function(e) {
         e.preventDefault();
         thisFinder.changeStep(1);
-        thisFinder.generateNet();
       });
     }
   }
@@ -156,19 +155,35 @@ class Finder {
   startAndFinish(clicked) {
     const thisFinder = this;
 
+    if(clicked.classList.contains(classNames.finder.active)) {
+      if(!clicked.classList.contains(classNames.finder.start) && thisFinder.start.length == 0) {
+        clicked.classList.add(classNames.finder.start);
+        thisFinder.start.push(clicked);
+      }
+      else if (clicked.classList.contains(classNames.finder.start)) {
+        clicked.classList.remove(classNames.finder.start);
+        thisFinder.start.pop();
+      }
+    }
 
-    if(thisFinder.startFinish.length == 0) {
-      clicked.classList.toggle('start');
-      thisFinder.startFinish.push(clicked);
-    } else if (thisFinder.startFinish.length == 1) {
-      clicked.classList.toggle('finish');
-    } else {
-      return;
+    if(clicked.classList.contains(classNames.finder.active)) {
+      if(thisFinder.start.length == 1 && !clicked.classList.contains(classNames.finder.start) && thisFinder.finish.length == 0) {
+        clicked.classList.add(classNames.finder.finish);
+        thisFinder.finish.push(clicked);
+      }
+      else if (clicked.classList.contains(classNames.finder.finish)){
+        clicked.classList.remove(classNames.finder.finish);
+        thisFinder.finish.pop();
+      }
     }
 
 
-    const activeTiles = document.querySelectorAll(select.finder.activeBox);
-    console.log(activeTiles);
+    const exp = document.querySelectorAll(select.finder.box);
+    thisFinder.startFinish = [];
+
+    for (let e of exp) {
+      thisFinder.startFinish.push(e.outerHTML);
+    }
   }
 }
 

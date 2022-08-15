@@ -35,7 +35,9 @@ export const classNames = {
   finder: {
     active: 'active-box',
     tile: 'tile',
-    clicked: 'clicked'
+    clicked: 'clicked',
+    start: 'start',
+    finish: 'finish'
   }
 };
 
