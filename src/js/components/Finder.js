@@ -12,17 +12,21 @@ class Finder {
 
 
 
-    thisFinder.grid = {};
-    for(let row = 1; row <= 10; row++) {
+    thisFinder.grid = [];
+    for(let row = 0; row < 10; row++) {
       thisFinder.grid[row] = {};
-      for(let col = 1; col <= 10; col++) {
+      for(let col = 0; col < 10; col++) {
         thisFinder.grid[row][col] = false;
       }
     }
 
-
+    thisFinder.path = [];
     thisFinder.start = [];
     thisFinder.finish = [];
+    thisFinder.pathNet = [];
+
+    thisFinder.correctPath = [];
+
     thisFinder.road = document.querySelectorAll(select.finder.box);
   }
 
@@ -47,13 +51,24 @@ class Finder {
     thisFinder.initActions();
   }
 
+  newDiv() {
+    const thisFinder = this;
+
+    let html = '';
+    for (let tile of thisFinder.road) {
+      html += tile.outerHTML;
+    }
+
+    thisFinder.element.querySelector(select.finder.boxContainer).innerHTML = html;
+  }
+
   generateNet() {
     const thisFinder = this;
 
     let html = '';
 
-    for(let row = 1; row <= 10; row++) {
-      for(let col = 1; col <= 10; col++) {
+    for(let row = 0; row < 10; row++) {
+      for(let col = 0; col < 10; col++) {
         html += '<div class="tile" data-row="' + row + '" data-col="' + col + '"></div>';
       }
     }
@@ -74,7 +89,7 @@ class Finder {
       document.querySelector(select.finder.submitBtn).addEventListener('click', function(e) {
         e.preventDefault();
         thisFinder.changeStep(2);
-        document.querySelector(select.finder.boxContainer).innerHTML = thisFinder.activeBox.join('');
+        thisFinder.newDiv();
       });
   
       document.querySelector(select.finder.boxContainer).addEventListener('click', function(e) {
@@ -91,7 +106,7 @@ class Finder {
       document.querySelector(select.finder.submitBtn).addEventListener('click', function(e) {
         e.preventDefault();
         thisFinder.changeStep(3);
-        document.querySelector(select.finder.boxContainer).innerHTML = thisFinder.startFinish.join('');
+        thisFinder.newDiv();
       });
       document.querySelector(select.finder.boxContainer).addEventListener('click', function(e) {
         e.preventDefault();
@@ -116,26 +131,139 @@ class Finder {
 
   findRoad() {
     const thisFinder = this;
+    const start = thisFinder.start;
+    const grid = thisFinder.grid;
 
-    console.log(thisFinder.grid);
-    const gridValues = Object.values(thisFinder.grid)
-      .map(col => Object.values(col))
-      .flat();
+ 
 
-    console.log(gridValues);
-    let road = 0;
-    for (let path of gridValues) {
-      if(path == true) {
-        road = road + 1;
+
+    let findShortestPath = function(startCoordinates, grid) {
+      let distanceFromTop = parseInt(startCoordinates[0][0]);
+      let distanceFromLeft = parseInt(startCoordinates[0][1]);
+
+
+      let location = {
+        distanceFromTop: distanceFromTop,
+        distanceFromLeft: distanceFromLeft,
+        path: [],
+        status: 'start'
+      };
+
+      let queue = [location];
+
+
+
+
+      while (queue.length > 0) {
+        
+        let currentLocation = queue.shift();
+
+
+        thisFinder.newLocation = exploreInDirection(currentLocation, 'North', grid);
+        if (thisFinder.newLocation.status === 'finish') {
+          return thisFinder.newLocation.path;
+        } else if (thisFinder.newLocation.status == true) {
+          queue.push(thisFinder.newLocation);
+          thisFinder.correctPath.push(thisFinder.newLocation);
+
+        }
+
+        thisFinder.newLocation = exploreInDirection(currentLocation, 'East', grid);
+        if (thisFinder.newLocation.status === 'finish') {
+          return thisFinder.newLocation.path;
+        } else if (thisFinder.newLocation.status == true) {
+          queue.push(thisFinder.newLocation);
+          thisFinder.correctPath.push(thisFinder.newLocation);
+
+        }
+
+        thisFinder.newLocation = exploreInDirection(currentLocation, 'South', grid);
+        if (thisFinder.newLocation.status === 'finish') {
+          return thisFinder.newLocation.path;
+        } else if (thisFinder.newLocation.status == true) {
+          queue.push(thisFinder.newLocation);
+          thisFinder.correctPath.push(thisFinder.newLocation);
+
+        }
+
+        thisFinder.newLocation = exploreInDirection(currentLocation, 'West', grid);
+        if (thisFinder.newLocation.status === 'finish') {
+          return thisFinder.newLocation.path;
+        } else if (thisFinder.newLocation.status == true) {
+          queue.push(thisFinder.newLocation);
+          thisFinder.correctPath.push(thisFinder.newLocation);
+
+        }
+
       }
-    }
-    console.log(road);
-    
 
+      return false;
+    };
+
+    let locationStatus = function(location, grid) {
+      let gridSize = grid.length;
+      let dft = location.distanceFromTop;
+      let dfl = location.distanceFromLeft;
+
+      if(location.distanceFromLeft < 0 ||
+        location.distanceFromLeft >= gridSize ||
+        location.distanceFromTop < 0 ||
+        location.distanceFromTop >= gridSize) {
+        return false;
+      } else if (grid[dft][dfl] === 'finish') {
+        return 'finish';
+      } else if (grid[dft][dfl] !== true) {
+        return false;
+      } else {
+        return true;
+      }
+    };
+
+    let exploreInDirection = function(currentLocation, direction, grid) {
+
+      let newPath = currentLocation.path.slice();
+      newPath.push(direction);
+  
+      let dft = currentLocation.distanceFromTop;
+      let dfl = currentLocation.distanceFromLeft;
+  
+      if (direction === 'North') {
+        dft -= 1;
+      } else if (direction === 'East') {
+        dfl += 1;
+      } else if (direction === 'South') {
+        dft += 1;
+      } else if (direction === 'West') {
+        dfl -= 1;
+      }
+  
+      let newLocation = {
+        distanceFromTop: dft,
+        distanceFromLeft: dfl,
+        path: newPath,
+        status: 'Unknown'
+      };
+      newLocation.status = locationStatus(newLocation, grid);
+  
+      if(newLocation.status === true) {
+        grid[newLocation.distanceFromTop][newLocation.distanceFromLeft] = 'Visited';
+      }
+
+      return newLocation;
+    };
+
+    console.log(findShortestPath(start, grid));
+    console.log(thisFinder.newLocation.path);
+    thisFinder.grid = grid;
+
+
+
+    alert(`The shortest path is ${thisFinder.newLocation.path.length} steps!`);
   }
 
   toggleField(clicked) {
     const thisFinder = this;
+    thisFinder.activeBox = [];
   
     const field = {
       row: parseInt(clicked.getAttribute('data-row')),
@@ -145,25 +273,18 @@ class Finder {
     if(thisFinder.grid[field.row][field.col]) {
       thisFinder.grid[field.row][field.col] = false;
       clicked.classList.remove(classNames.finder.active);
-    }
-  
-    else {
+    } else {
       const gridValues = Object.values(thisFinder.grid)
         .map(col => Object.values(col))
         .flat();
-  
-  
-      // if grid isn't empty...
-      if(gridValues.includes(true)) {
-  
-        // determine edge fields
-        const edgeFields = [];
-        if(field.col > 1) edgeFields.push(thisFinder.grid[field.row][field.col-1]); //get field on the left value
-        if(field.col < 10) edgeFields.push(thisFinder.grid[field.row][field.col+1]); //get field on the right value
-        if(field.row > 1) edgeFields.push(thisFinder.grid[field.row-1][field.col]); //get field on the top value
-        if(field.row < 10) edgeFields.push(thisFinder.grid[field.row+1][field.col]); //get field on the bottom value
 
-        
+      if(gridValues.includes(true)) {
+        const edgeFields = [];
+        if(field.col > 0) edgeFields.push(thisFinder.grid[field.row][field.col-1]); //get field on the left value
+        if(field.col < 9) edgeFields.push(thisFinder.grid[field.row][field.col+1]); //get field on the right value
+        if(field.row > 0) edgeFields.push(thisFinder.grid[field.row-1][field.col]); //get field on the top value
+        if(field.row < 9) edgeFields.push(thisFinder.grid[field.row+1][field.col]); //get field on the bottom value
+
         if(!edgeFields.includes(true)) {
           alert('A new field should touch at least one that is already selected!');
           return;
@@ -174,17 +295,20 @@ class Finder {
       clicked.classList.add(classNames.finder.active);
 
       const exp = document.querySelectorAll(select.finder.box);
-      thisFinder.activeBox = [];
+
 
       for (let e of exp) {
         thisFinder.activeBox.push(e.outerHTML);
+      }
+
+      if(clicked.classList.contains('active-box')) {
+        thisFinder.path.push([clicked.getAttribute('data-row'), clicked.getAttribute('data-col')]);
       }
     }
   }
 
   startAndFinish(clicked) {
     const thisFinder = this;
-    console.log(thisFinder.grid);
     
 
     const field = {
@@ -196,7 +320,7 @@ class Finder {
     if(clicked.classList.contains(classNames.finder.active)) {
       if(!clicked.classList.contains(classNames.finder.start) && thisFinder.start.length == 0) {
         clicked.classList.add(classNames.finder.start);
-        thisFinder.start.push(clicked);
+        thisFinder.start.push([clicked.getAttribute('data-row'), clicked.getAttribute('data-col')]);
         thisFinder.grid[field.row][field.col] = 'start';
       }
       else if (clicked.classList.contains(classNames.finder.start)) {
@@ -209,7 +333,7 @@ class Finder {
     if(clicked.classList.contains(classNames.finder.active)) {
       if(thisFinder.start.length == 1 && !clicked.classList.contains(classNames.finder.start) && thisFinder.finish.length == 0) {
         clicked.classList.add(classNames.finder.finish);
-        thisFinder.finish.push(clicked);
+        thisFinder.finish.push([clicked.getAttribute('data-row'), clicked.getAttribute('data-col')]);
         thisFinder.grid[field.row][field.col] = 'finish';
       }
       else if (clicked.classList.contains(classNames.finder.finish)){
@@ -222,27 +346,27 @@ class Finder {
 
     const exp = document.querySelectorAll(select.finder.box);
     thisFinder.startFinish = [];
-    console.log(thisFinder.grid);
 
-    for (let e of exp) {
-      thisFinder.startFinish.push(e.outerHTML);
-    }
+    thisFinder.road = exp;
   }
 
   clearData() {
     const thisFinder = this;
 
+    thisFinder.path = [];
     thisFinder.start = [];
     thisFinder.finish = [];
+    thisFinder.road = document.querySelectorAll(select.finder.box);
 
-    thisFinder.grid = {};
-    for(let row = 1; row <= 10; row++) {
+    thisFinder.grid = [];
+    for(let row = 0; row < 10; row++) {
       thisFinder.grid[row] = {};
-      for(let col = 1; col <= 10; col++) {
+      for(let col = 0; col < 10; col++) {
         thisFinder.grid[row][col] = false;
       }
     }
   }
+
 }
 
 export default Finder;
