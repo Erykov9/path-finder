@@ -37,7 +37,8 @@ export const classNames = {
     tile: 'tile',
     clicked: 'clicked',
     start: 'start',
-    finish: 'finish'
+    finish: 'finish',
+    found: 'found'
   }
 };
 
