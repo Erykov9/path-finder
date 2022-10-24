@@ -52,3 +52,35 @@
 .found {
   background: green;
 }
+
+.mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 1200px) {
+  .gallery-left , .gallery-right {
+    display: none !important;
+  }
+
+  .all_pages {
+    height: 100vh;
+    width: 100vw;
+  }
+
+  h1, h4 {
+    font-size: 0.6em !important;
+  }
+
+  .finder {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    font-family: $font-text;
+  }
+}

@@ -53,7 +53,6 @@ class Finder {
 
   newDiv() {
     const thisFinder = this;
-    console.log(thisFinder.road);
 
     let html = '';
     for (let tile of thisFinder.road) {
@@ -147,11 +146,7 @@ class Finder {
 
         col = parseInt(col) + 1;
         col = col + '';
-        console.log('col:', col);
         thisFinder.currentLocation = [`${row}`, `${col}`];
-        console.log('curret location:', thisFinder.currentLocation);
-
-        console.log(document.querySelector('[data-row="' + row + '"]' + '[data-col="' + col + '"]' ));
         boxContainer.querySelector('[data-row="' + row + '"]' + '[data-col="' + col + '"]').classList.add(classNames.finder.found);
       }
 
@@ -161,9 +156,6 @@ class Finder {
         col = col + '';
         console.log('col:', col);
         thisFinder.currentLocation = [`${row}`, `${col}`];
-        console.log('curret location:', thisFinder.currentLocation);
-
-        console.log(document.querySelector('[data-row="' + row + '"]' + '[data-col="' + col + '"]' ));
         document.querySelector('[data-row="' + row + '"]' + '[data-col="' + col + '"]').classList.add(classNames.finder.found);
       }
 
@@ -173,41 +165,26 @@ class Finder {
         row = row + '';
         console.log('row:', row);
         thisFinder.currentLocation = [`${row}`, `${col}`];
-        console.log('curret location:', thisFinder.currentLocation);
-
-        console.log(document.querySelector('[data-row="' + row + '"]' + '[data-col="' + col + '"]' ));
         document.querySelector('[data-row="' + row + '"]' + '[data-col="' + col + '"]').classList.add(classNames.finder.found);
       }
 
       if(a == 'South') {
         row = parseInt(row) + 1;
         row = row + '';
-        console.log('row:', row);
         thisFinder.currentLocation = [`${row}`, `${col}`];
-        console.log('curret location:', thisFinder.currentLocation);
-
-        console.log(document.querySelector('[data-row="' + row + '"]' + '[data-col="' + col + '"]' ));
         document.querySelector('[data-row="' + row + '"]' + '[data-col="' + col + '"]').classList.add(classNames.finder.found);
       }
     }
-
-
   }
   
-
-
   findRoad() {
     const thisFinder = this;
     const start = thisFinder.start;
     const grid = thisFinder.grid;
 
- 
-
-
     let findShortestPath = function(startCoordinates, grid) {
       let distanceFromTop = parseInt(startCoordinates[0][0]);
       let distanceFromLeft = parseInt(startCoordinates[0][1]);
-
 
       let location = {
         distanceFromTop: distanceFromTop,
@@ -319,9 +296,8 @@ class Finder {
       return newLocation;
     };
 
-    console.log(findShortestPath(start, grid));
     thisFinder.grid = grid;
-
+    findShortestPath(start, grid)
 
     thisFinder.colorTiles(thisFinder.newLocation.path);
     alert(`The shortest path is ${thisFinder.newLocation.path.length} steps!`);

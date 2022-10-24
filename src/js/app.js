@@ -68,7 +68,6 @@ const app = {
         link.getAttribute('href') == '#' + pageId
       );
     }
-    console.log(pageId);
   },
 
 
