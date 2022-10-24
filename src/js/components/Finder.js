@@ -297,7 +297,7 @@ class Finder {
     };
 
     thisFinder.grid = grid;
-    findShortestPath(start, grid)
+    findShortestPath(start, grid);
 
     thisFinder.colorTiles(thisFinder.newLocation.path);
     alert(`The shortest path is ${thisFinder.newLocation.path.length} steps!`);
