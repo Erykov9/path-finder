@@ -4,7 +4,7 @@ This is simple project using a pathfinding algorithm
 
 ## PROJECT URL
 
-Link for app [pathfinder](https://eszczepanek-pathfinder.herokuapp.com)
+Link for app [pathfinder](https://path-finder-1.erykov9.repl.co/)
 
 ### HOW TO RUN THE PROJECT
 
